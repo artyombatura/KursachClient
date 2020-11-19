@@ -9,40 +9,34 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="MainWindowModule.MainWindowController">
+<VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MainWindowModule.MainWindowController">
   <children>
-    <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
+    <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="415.0" prefWidth="663.0" VBox.vgrow="ALWAYS">
          <children>
-            <TableView layoutX="14.0" layoutY="32.0" prefHeight="342.0" prefWidth="459.0">
+            <TableView fx:id="tableView" layoutX="14.0" layoutY="32.0" prefHeight="342.0" prefWidth="500">
               <columns>
-                <TableColumn prefWidth="75.0" text="Фамилия" />
-                  <TableColumn prefWidth="75.0" text="Имя" />
-                  <TableColumn prefWidth="75.0" text="Отчество" />
-                  <TableColumn prefWidth="75.0" text="Оклад" />
-                  <TableColumn prefWidth="87.0" text="Отработано" />
-                  <TableColumn prefWidth="75.0" text="Норма" />
+                <TableColumn fx:id="lastNameColumn" prefWidth="75.0" text="Фамилия" />
+                  <TableColumn fx:id="firstNameColumn" prefWidth="75.0" text="Имя" />
+                  <TableColumn fx:id="patronymicColumn" prefWidth="96.0" text="Отчество" />
+                  <TableColumn fx:id="salaryByContractColumn" prefWidth="54.0" text="Оклад" />
+                  <TableColumn fx:id="hoursWorkedColumn" prefWidth="101.0" text="Отработано" />
+                  <TableColumn fx:id="workRateColumn" prefWidth="93.0" text="Норма" />
               </columns>
             </TableView>
-            <DatePicker layoutX="477.0" layoutY="146.0" prefHeight="27.0" prefWidth="149.0"
-                        fx:id="fromDatePicker" onAction="#fromDatePickerAction"/>
-            <Text layoutX="495.0" layoutY="129.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Дата расчета (с/по)" />
-            <DatePicker layoutX="477.0" layoutY="187.0" prefHeight="27.0" prefWidth="149.0"
-                        fx:id="toDatePicker" onAction="#toDatePickerAction"/>
-            <Button layoutX="486.0" layoutY="336.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="131.0" text="Расчитать для выбранного"
-                    fx:id="countSelectedButton" onAction="#countSelectedButtonAction">
+            <DatePicker fx:id="fromDatePicker" layoutX="523.0" layoutY="114.0" onAction="#fromDatePickerAction" prefHeight="27.0" prefWidth="149.0" />
+            <Text layoutX="523.0" layoutY="98.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Дата расчета (с/по)" />
+            <DatePicker fx:id="toDatePicker" layoutX="523.0" layoutY="156.0" onAction="#toDatePickerAction" prefHeight="27.0" prefWidth="149.0" />
+            <Button fx:id="countSelectedButton" layoutX="532.0" layoutY="280.0" mnemonicParsing="false" onAction="#countSelectedButtonAction" prefHeight="38.0" prefWidth="131.0" text="Расчитать для выбранного">
                <font>
                   <Font size="9.0" />
                </font>
             </Button>
-            <Button layoutX="486.0" layoutY="289.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="131.0" text="Расчитать для всех"
-                    fx:id="countAllButton" onAction="#countAllButtonAction">
+            <Button fx:id="countAllButton" layoutX="532.0" layoutY="230.0" mnemonicParsing="false" onAction="#countAllButtonAction" prefHeight="38.0" prefWidth="131.0" text="Расчитать для всех">
                <font>
                   <Font size="9.0" />
                </font>
             </Button>
-            <Button layoutX="515.0" layoutY="32.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="74.0" text="Admin panel"
-                    fx:id="adminPanelButton" onAction="#adminPanelButtonAction">
+            <Button fx:id="adminPanelButton" layoutX="543.0" layoutY="32.0" mnemonicParsing="false" onAction="#adminPanelButtonAction" prefHeight="27.0" prefWidth="74.0" text="Admin panel">
                <font>
                   <Font size="9.0" />
                </font>

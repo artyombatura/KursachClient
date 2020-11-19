@@ -1,24 +1,44 @@
 package MainWindowModule;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.TableView;
+import javafx.fxml.Initializable;
+import javafx.scene.control.*;
 import javafx.event.ActionEvent;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import AdminLoginModule.AdminLoginView;
-import AdminLoginModule.AdminLoginController;
-import AdminLoginModule.*;
 
-import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
-public class MainWindowController {
+import Models.Employee;
+
+public class MainWindowController implements Initializable {
 
     @FXML
-    private TableView<?> tableView;
+    TableColumn<Employee, String> lastNameColumn;
+
+    @FXML
+    TableColumn<Employee, String> firstNameColumn;
+
+    @FXML
+    TableColumn<Employee, String> patronymicColumn;
+
+    @FXML
+    TableColumn<Employee, Integer> salaryByContractColumn;
+
+    @FXML
+    TableColumn<Employee, TextField> hoursWorkedColumn;
+
+    @FXML
+    TableColumn<Employee, TextField> workRateColumn;
+
+    @FXML
+    private TableView<Employee> tableView;
 
     @FXML
     private DatePicker fromDatePicker;
@@ -35,11 +55,29 @@ public class MainWindowController {
     @FXML
     private Button adminPanelButton;
 
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        lastNameColumn.setCellValueFactory(new PropertyValueFactory<>("LastName"));
+        firstNameColumn.setCellValueFactory(new PropertyValueFactory<>("FirstName"));
+        patronymicColumn.setCellValueFactory(new PropertyValueFactory<>("Patronymic"));
+        salaryByContractColumn.setCellValueFactory(new PropertyValueFactory<>("SalaryByContract"));
+        hoursWorkedColumn.setCellValueFactory(new PropertyValueFactory<>("HoursWorkedTextField"));
+        workRateColumn.setCellValueFactory(new PropertyValueFactory<>("WorkRateTextField"));
+
+        tableView.setItems(employeesDataSource);
+    }
+
+    private ObservableList<Employee> employeesDataSource = FXCollections.observableArrayList (
+            new Employee("Артем", "Батура", "Геннадьевич", 3500),
+            new Employee("Константин", "Петрикевич", "...славович???", 4000)
+    );
+
     @FXML
     void adminPanelButtonAction(ActionEvent event) {
 
         try {
             Stage stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
             AdminLoginView adminLoginView = new AdminLoginView();
             adminLoginView.start(stage);
         } catch (Exception e) {
@@ -54,7 +92,9 @@ public class MainWindowController {
 
     @FXML
     void countSelectedButtonAction(ActionEvent event) {
-        System.out.println("count selected");
+        TableView.TableViewSelectionModel<Employee> seletectedModel = tableView.getSelectionModel();
+        Employee selectedEmployee = seletectedModel.getSelectedItem();
+        System.out.println(selectedEmployee.toString());
     }
 
     @FXML
