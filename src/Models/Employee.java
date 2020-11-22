@@ -8,6 +8,7 @@ public class Employee {
     private String lastName;
     private String patronymic;
     private Integer salaryByContract;
+
     private Integer countedSalary;
 
     private TextField hoursWorkedTextField = new TextField();

@@ -26,7 +26,7 @@ public class AdminLoginController {
     @FXML
     void loginButtonAction(ActionEvent event) {
         try {
-            if(Constants.clientConnect.checkAdminAccount(loginTextField.getText(),passwordTextField.getText())){
+            if(Client.interactionsWithServer.checkAdminAccount(loginTextField.getText(),passwordTextField.getText())){
                 openAdminPanel();
 
                 // Closing authorization window (this)

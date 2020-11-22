@@ -1,5 +1,6 @@
 package AdminCapabilitiesModule;
 
+import ConnectToServer.Client;
 import Constants.Constants;
 import Models.Employee;
 import javafx.event.ActionEvent;
@@ -30,6 +31,6 @@ public class AddEmployeeController {
 
     @FXML
     void addAction(ActionEvent event) {
-        Constants.clientConnect.addWorker(lastNameTextField.getText(),firstNameTextField.getText(),patronymicTextField.getText(),salaryTextField.getText());
+        Client.interactionsWithServer.addWorker(lastNameTextField.getText(),firstNameTextField.getText(),patronymicTextField.getText(),salaryTextField.getText());
     }
 }

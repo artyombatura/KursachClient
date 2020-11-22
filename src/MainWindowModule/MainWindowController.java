@@ -107,7 +107,7 @@ public class MainWindowController implements Initializable {
         workRateColumn.setCellValueFactory(new PropertyValueFactory<>("WorkRateTextField"));
 
         try {
-            employeesDataSource.addAll(Constants.clientConnect.showAllContribution());
+            employeesDataSource.addAll(Client.interactionsWithServer.showAllContribution());
            if(employeesDataSource.size()!=0) {
                tableView.setItems(employeesDataSource);
            }
@@ -142,7 +142,7 @@ public class MainWindowController implements Initializable {
             if (employee.getHoursWorkedTextField().getText() != "" &&
                     employee.getWorkRateTextField().getText() != "") {
                 // Fake salary count
-                employee.setCountedSalary(Client.clientConnect.calculate(employee));
+                employee.setCountedSalary(Client.interactionsWithServer.calculate(employee));
                 employees.add(employee);
             } else {
                 showAlert("Все поля должны быть заполнены!");
@@ -165,7 +165,7 @@ public class MainWindowController implements Initializable {
 
        // Client.clientConnect.calculate(selectedEmployee);
 
-        selectedEmployee.setCountedSalary(Client.clientConnect.calculate(selectedEmployee));
+        selectedEmployee.setCountedSalary(Client.interactionsWithServer.calculate(selectedEmployee));
 
         if (selectedEmployee.getHoursWorkedTextField().getText() != "" &&
             selectedEmployee.getWorkRateTextField().getText() != "") {

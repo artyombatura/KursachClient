@@ -1,5 +1,6 @@
 package AdminCapabilitiesModule;
 
+import ConnectToServer.Client;
 import Constants.Constants;
 import Models.Employee;
 import javafx.collections.FXCollections;
@@ -66,7 +67,7 @@ public class AdminPanelController implements Initializable, AddEmployeeDelegate 
         patronymicColumn.setCellValueFactory(new PropertyValueFactory<>("Patronymic"));
         salaryByContractColumn.setCellValueFactory(new PropertyValueFactory<>("SalaryByContract"));
         try {
-            employeesDataSource.addAll(Constants.clientConnect.showAllContribution());
+            employeesDataSource.addAll(Client.interactionsWithServer.showAllContribution());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -82,7 +83,7 @@ public class AdminPanelController implements Initializable, AddEmployeeDelegate 
     @FXML
     void deleteSelectedEmployeeAction(ActionEvent event) {
         int  count = workers.getSelectionModel().getSelectedCells().get(0).getRow();
-        Constants.clientConnect.deleteWorker(employeesDataSource.get(count).getId());
+        Client.interactionsWithServer.deleteWorker(employeesDataSource.get(count).getId());
         initTable();
     }
 
