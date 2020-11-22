@@ -1,32 +1,28 @@
 package MainWindowModule;
 
-import AlertViewModule.AlertViewController;
 import Helpers.DateHelpers.DateHelpers;
+import ResultsModule.ResultsWindowView;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import AdminLoginModule.AdminLoginView;
 import AlertViewModule.AlertView;
 
-import java.awt.*;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
-import java.util.Optional;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
+import java.util.concurrent.atomic.AtomicReference;
 
 import Models.Employee;
 
@@ -72,6 +68,15 @@ public class MainWindowController implements Initializable {
     // Variables
     LocalDate fromDate;
     LocalDate toDate;
+    private ObservableList<Employee> employeesDataSource = FXCollections.observableArrayList (
+            new Employee("Артем", "Батура", "Геннадьевич", 570),
+            new Employee("Константин", "Петрикевич", "Вячеславович", 800),
+            new Employee("Константин", "Петрикевич", "Вячеславович", 100),
+            new Employee("Константин", "Петрикевич", "Вячеславович", 800),
+            new Employee("Константин", "Петрикевич", "Вячеславович", 1000),
+            new Employee("Константин", "Петрикевич", "Вячеславович", 1000),
+            new Employee("Константин", "Петрикевич", "Вячеславович", 800)
+    );
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -81,6 +86,9 @@ public class MainWindowController implements Initializable {
             if (isDatePickerBothFilled()) {
                 Integer workRate = DateHelpers.getWorkHoursFromDateRange(fromDate, toDate);
                 updateModelsWorkRate(workRate);
+
+                countSelectedButton.setDisable(false);
+                countAllButton.setDisable(false);
             }
         });
 
@@ -90,6 +98,9 @@ public class MainWindowController implements Initializable {
             if (isDatePickerBothFilled()) {
                 Integer workRate = DateHelpers.getWorkHoursFromDateRange(fromDate, toDate);
                 updateModelsWorkRate(workRate);
+
+                countSelectedButton.setDisable(false);
+                countAllButton.setDisable(false);
             }
         });
 
@@ -101,12 +112,10 @@ public class MainWindowController implements Initializable {
         workRateColumn.setCellValueFactory(new PropertyValueFactory<>("WorkRateTextField"));
 
         tableView.setItems(employeesDataSource);
-    }
 
-    private ObservableList<Employee> employeesDataSource = FXCollections.observableArrayList (
-            new Employee("Артем", "Батура", "Геннадьевич", 3500),
-            new Employee("Константин", "Петрикевич", "...славович???", 4000)
-    );
+        countAllButton.setDisable(true);
+        countSelectedButton.setDisable(true);
+    }
 
     @FXML
     void adminPanelButtonAction(ActionEvent event) {
@@ -122,37 +131,42 @@ public class MainWindowController implements Initializable {
 
     @FXML
     void countAllButtonAction(ActionEvent event) throws IOException {
-        try {
-            Stage stage = new Stage();
-            stage.initModality(Modality.APPLICATION_MODAL);
-            AlertView alertView = new AlertView();
-            alertView.start(stage, "Моя тестовая ошибка");
-        } catch (Exception e) {
-            System.out.println("Cannot open alert view.\nWith exception" + e.getLocalizedMessage() );
-        }
+        AtomicReference<Boolean> shouldReturn = new AtomicReference<>(false);
+        ArrayList<Employee> employees = new ArrayList<Employee>();
+        employeesDataSource.forEach((employee -> {
+            if (shouldReturn.get()) { return; }
+
+            if (employee.getHoursWorkedTextField().getText() != "" &&
+                    employee.getWorkRateTextField().getText() != "") {
+                // Fake salary count
+                employee.setCountedSalary(1000);
+                employees.add(employee);
+            } else {
+                showAlert("Все поля должны быть заполнены!");
+                shouldReturn.set(true);
+            }
+        }));
+
+        if (shouldReturn.get()) { return; }
+        else { showResultsWindow(employees); }
     }
 
     @FXML
     void countSelectedButtonAction(ActionEvent event) {
         TableView.TableViewSelectionModel<Employee> seletectedModel = tableView.getSelectionModel();
         Employee selectedEmployee = seletectedModel.getSelectedItem();
+        System.out.println(selectedEmployee.toString());
+        //  Fake salary count
+        selectedEmployee.setCountedSalary(1000);
 
         if (selectedEmployee.getHoursWorkedTextField().getText() != "" &&
             selectedEmployee.getWorkRateTextField().getText() != "") {
-            System.out.println(selectedEmployee.toString());
+            ArrayList<Employee> employeesArrayList = new ArrayList<Employee>();
+            employeesArrayList.add(selectedEmployee);
+            showResultsWindow(employeesArrayList);
         } else {
             showAlert("Все поля должны быть заполнены!");
         }
-    }
-
-    @FXML
-    void fromDatePickerAction(ActionEvent event) {
-
-    }
-
-    @FXML
-    void toDatePickerAction(ActionEvent event) {
-
     }
 
     // Private method ths shows alert view with custom user error
@@ -164,6 +178,17 @@ public class MainWindowController implements Initializable {
             alertView.start(stage, withText);
         } catch (Exception e) {
             System.out.println("Cannot open alert view.\nWith exception" + e.getLocalizedMessage() );
+        }
+    }
+
+    // Shows results window
+    private void showResultsWindow(ArrayList<Employee> employeesToDisplay) {
+        try {
+            Stage stage = new Stage();
+            ResultsWindowView resultsWindowView = new ResultsWindowView();
+            resultsWindowView.start(stage, employeesToDisplay);
+        } catch (Exception e) {
+            System.out.println("Cannot open results window.\nWith exception" + e.getLocalizedMessage() );
         }
     }
 
@@ -180,4 +205,5 @@ public class MainWindowController implements Initializable {
             employee.getWorkRateTextField().setText(workRateString);
         }
     }
+
 }
