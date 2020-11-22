@@ -142,7 +142,7 @@ public class MainWindowController implements Initializable {
             if (employee.getHoursWorkedTextField().getText() != "" &&
                     employee.getWorkRateTextField().getText() != "") {
                 // Fake salary count
-                employee.setCountedSalary(1000);
+                employee.setCountedSalary(Client.clientConnect.calculate(employee));
                 employees.add(employee);
             } else {
                 showAlert("Все поля должны быть заполнены!");
@@ -160,7 +160,12 @@ public class MainWindowController implements Initializable {
         Employee selectedEmployee = seletectedModel.getSelectedItem();
         System.out.println(selectedEmployee.toString());
         //  Fake salary count
-        selectedEmployee.setCountedSalary(1000);
+        System.out.println(selectedEmployee.getHoursWorkedTextField().getText());
+        System.out.println(selectedEmployee.getWorkRateTextField().getText());
+
+       // Client.clientConnect.calculate(selectedEmployee);
+
+        selectedEmployee.setCountedSalary(Client.clientConnect.calculate(selectedEmployee));
 
         if (selectedEmployee.getHoursWorkedTextField().getText() != "" &&
             selectedEmployee.getWorkRateTextField().getText() != "") {

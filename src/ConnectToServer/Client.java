@@ -68,4 +68,16 @@ public class Client extends Constants {
        sendMsg("добавить рабочего");
        sendMsg(name+" "+firstNameTextFieldText+" "+patronymicTextFieldText+" "+salaryTextFieldText);
     }
+
+
+    public Integer calculate(Employee selectedEmployee) {
+        sendMsg("расчет зарплаты");
+        sendMsg(selectedEmployee.getHoursWorkedTextField().getText()+" "+selectedEmployee.getWorkRateTextField().getText());
+        try {
+            return Integer.valueOf(in.readLine());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
 }
