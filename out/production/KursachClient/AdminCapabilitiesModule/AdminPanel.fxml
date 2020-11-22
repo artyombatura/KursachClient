@@ -18,7 +18,7 @@
             <Font size="18.0" />
           </font>
         </Label>
-            <TableView layoutX="14.0" layoutY="14.0" prefHeight="337.0" prefWidth="611.0">
+            <TableView fx:id="workers" layoutX="14.0" layoutY="14.0" prefHeight="337.0" prefWidth="611.0">
                <columns>
                   <TableColumn fx:id="idColumn" prefWidth="74.0" text="ID" />
                   <TableColumn fx:id="lastNameColumn" prefWidth="122.0" text="Фамилия" />
@@ -29,6 +29,8 @@
             </TableView>
             <Button fx:id="addEmployeeButton" layoutX="23.0" layoutY="360.0" mnemonicParsing="false" onAction="#addEmployeeAction" text="Добавить сотрудника" />
             <Button fx:id="deleteSelectedEmployee" layoutX="182.0" layoutY="360.0" mnemonicParsing="false" onAction="#deleteSelectedEmployeeAction" text="Удалить выбранного" />
+           <Button fx:id="updateData" layoutX="400.0" layoutY="360.0" mnemonicParsing="false"  text="Обновить" />
+
       </children>
     </AnchorPane>
   </children>

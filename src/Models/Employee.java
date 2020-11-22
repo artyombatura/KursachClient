@@ -20,6 +20,14 @@ public class Employee {
         this.salaryByContract = salaryByContract;
     }
 
+    public Employee(int id, String firstName, String lastName, String patronymic, Integer salaryByContract) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.patronymic = patronymic;
+        this.salaryByContract = salaryByContract;
+    }
+
     public int getId() {
         return id;
     }

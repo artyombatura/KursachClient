@@ -1,5 +1,6 @@
 package AdminCapabilitiesModule;
 
+import Constants.Constants;
 import Models.Employee;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -29,10 +30,6 @@ public class AddEmployeeController {
 
     @FXML
     void addAction(ActionEvent event) {
-        Employee employee = new Employee("Артем", "Батура", "Геннадьевич", 1000);
-        delegate.successfullyAdded(employee);
-
-        Stage stage = (Stage) addButton.getScene().getWindow();
-        stage.close();
+        Constants.clientConnect.addWorker(lastNameTextField.getText(),firstNameTextField.getText(),patronymicTextField.getText(),salaryTextField.getText());
     }
 }

@@ -1,12 +1,16 @@
 package AdminLoginModule;
 
 import AdminCapabilitiesModule.AdminPanelView;
+import ConnectToServer.Client;
+import Constants.Constants;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.event.ActionEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+
+import java.io.IOException;
 
 public class AdminLoginController {
 
@@ -21,11 +25,22 @@ public class AdminLoginController {
 
     @FXML
     void loginButtonAction(ActionEvent event) {
-        openAdminPanel();
+        try {
+            if(Constants.clientConnect.checkAdminAccount(loginTextField.getText(),passwordTextField.getText())){
+                openAdminPanel();
 
-        // Closing authorization window (this)
-        Stage stage = (Stage) loginButton.getScene().getWindow();
-        stage.close();
+                // Closing authorization window (this)
+                Stage stage = (Stage) loginButton.getScene().getWindow();
+                stage.close();
+            }
+            else{
+                System.out.println("Неверный логин или пароль !");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
     }
 
     private void openAdminPanel() {
