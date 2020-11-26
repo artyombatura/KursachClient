@@ -8,12 +8,21 @@ public class Employee {
     private String lastName;
     private String patronymic;
     private Integer salaryByContract;
+
     private Integer countedSalary;
 
     private TextField hoursWorkedTextField = new TextField();
     private TextField workRateTextField = new TextField();
 
     public Employee(String firstName, String lastName, String patronymic, Integer salaryByContract) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.patronymic = patronymic;
+        this.salaryByContract = salaryByContract;
+    }
+
+    public Employee(int id, String firstName, String lastName, String patronymic, Integer salaryByContract) {
+        this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.patronymic = patronymic;

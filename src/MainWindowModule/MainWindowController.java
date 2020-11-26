@@ -1,5 +1,7 @@
 package MainWindowModule;
 
+import ConnectToServer.Client;
+import Constants.Constants;
 import Helpers.DateHelpers.DateHelpers;
 import ResultsModule.ResultsWindowView;
 import javafx.collections.FXCollections;
@@ -21,6 +23,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.ResourceBundle;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -68,15 +71,7 @@ public class MainWindowController implements Initializable {
     // Variables
     LocalDate fromDate;
     LocalDate toDate;
-    private ObservableList<Employee> employeesDataSource = FXCollections.observableArrayList (
-            new Employee("Артем", "Батура", "Геннадьевич", 570),
-            new Employee("Константин", "Петрикевич", "Вячеславович", 800),
-            new Employee("Константин", "Петрикевич", "Вячеславович", 100),
-            new Employee("Константин", "Петрикевич", "Вячеславович", 800),
-            new Employee("Константин", "Петрикевич", "Вячеславович", 1000),
-            new Employee("Константин", "Петрикевич", "Вячеславович", 1000),
-            new Employee("Константин", "Петрикевич", "Вячеславович", 800)
-    );
+    private ObservableList<Employee> employeesDataSource = FXCollections.observableArrayList ();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -111,7 +106,15 @@ public class MainWindowController implements Initializable {
         hoursWorkedColumn.setCellValueFactory(new PropertyValueFactory<>("HoursWorkedTextField"));
         workRateColumn.setCellValueFactory(new PropertyValueFactory<>("WorkRateTextField"));
 
-        tableView.setItems(employeesDataSource);
+        try {
+            employeesDataSource.addAll(Client.interactionsWithServer.showAllContribution());
+           if(employeesDataSource.size()!=0) {
+               tableView.setItems(employeesDataSource);
+           }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
 
         countAllButton.setDisable(true);
         countSelectedButton.setDisable(true);
@@ -139,7 +142,7 @@ public class MainWindowController implements Initializable {
             if (employee.getHoursWorkedTextField().getText() != "" &&
                     employee.getWorkRateTextField().getText() != "") {
                 // Fake salary count
-                employee.setCountedSalary(1000);
+                employee.setCountedSalary(Client.interactionsWithServer.calculate(employee));
                 employees.add(employee);
             } else {
                 showAlert("Все поля должны быть заполнены!");
@@ -157,7 +160,12 @@ public class MainWindowController implements Initializable {
         Employee selectedEmployee = seletectedModel.getSelectedItem();
         System.out.println(selectedEmployee.toString());
         //  Fake salary count
-        selectedEmployee.setCountedSalary(1000);
+        System.out.println(selectedEmployee.getHoursWorkedTextField().getText());
+        System.out.println(selectedEmployee.getWorkRateTextField().getText());
+
+       // Client.clientConnect.calculate(selectedEmployee);
+
+        selectedEmployee.setCountedSalary(Client.interactionsWithServer.calculate(selectedEmployee));
 
         if (selectedEmployee.getHoursWorkedTextField().getText() != "" &&
             selectedEmployee.getWorkRateTextField().getText() != "") {

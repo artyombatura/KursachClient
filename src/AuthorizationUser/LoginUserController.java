@@ -1,4 +1,4 @@
-package AdminLoginModule;
+package AuthorizationUser;
 
 import AdminCapabilitiesModule.AdminPanelView;
 import ConnectToServer.Client;
@@ -12,7 +12,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class AdminLoginController {
+public class LoginUserController {
 
     @FXML
     private TextField loginTextField;
@@ -26,8 +26,8 @@ public class AdminLoginController {
     @FXML
     void loginButtonAction(ActionEvent event) {
         try {
-            if(Client.interactionsWithServer.checkAdminAccount(loginTextField.getText(),passwordTextField.getText())){
-                openAdminPanel();
+            if(Client.interactionsWithServer.authUser(loginTextField.getText(),passwordTextField.getText())){
+              //  openAdminPanel(); Здесь вызвать окно которое должно открыться при входе юзера
 
                 // Closing authorization window (this)
                 Stage stage = (Stage) loginButton.getScene().getWindow();
