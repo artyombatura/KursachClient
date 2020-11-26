@@ -20,6 +20,7 @@ public class MainWindowView extends Application {
 
     public static void main(String[] args) {
         new Client().connectToServer();
+        
         launch(args);
 
     }

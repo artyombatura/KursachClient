@@ -80,4 +80,15 @@ public class InteractionsWithServer  extends Constants {
         }
         return 0;
     }
+    public boolean authUser(String login,String password) throws IOException {
+        sendMsg("вход");
+        sendMsg(login+" "+password);
+        if(in.readLine().equals("true")){
+            return true;
+        }
+        else{
+            return false;
+        }
+
+    }
 }
